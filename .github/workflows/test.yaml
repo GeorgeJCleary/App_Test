@@ -17,7 +17,7 @@ jobs:
         # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
         with:
-          route: GET /orgs/${{github.env.ORG_NAME}}/personal-access-tokens
+          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-tokens
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           
@@ -26,7 +26,7 @@ jobs:
         # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
         with:
-          route: GET /orgs/${{github.env.ORG_NAME}}/personal-access-tokens
+          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-tokens
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
@@ -34,7 +34,7 @@ jobs:
         # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
         with:
-          route: GET /orgs/${{github.env.ORG_NAME}}/personal-access-token-requests/{pat_request_id}
+          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-token-requests/{pat_request_id}
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
