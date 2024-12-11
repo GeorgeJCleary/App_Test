@@ -5,49 +5,24 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       ORG_NAME: PixelBayStudios
+      REPO: TokenTest
     steps:
-      - name: Generate a token
+      - name: Generate a GitHub App installation access tokens
         id: generate-token
+        # When repositories is not set, creates a token for all repositories for ORG_NAME
+        # Token lasts for 1 hour
         uses: actions/create-github-app-token@v1
         with:
             app-id: ${{ vars.APP_ID }}
             private-key: ${{ secrets.APP_PRIVATE_KEY }}
             owner: ${{ env.ORG_NAME }}
 
-      - name: List all personal access tokens for ${{ env.ORG_NAME }}
-        # Only GitHub Apps can use this endpoint
+      - name: Generate Release notes
+        #https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#generate-release-notes-content-for-a-release
         uses: octokit/request-action@v2.x
         with:
-          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-tokens
+          route: POST /repos/${{ env.ORG_NAME }}/${{ env.REPO }}/releases/generate-notes
+          tag_name: test
+
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-          
-
-      - name: Make a personal access token request
-        # Only GitHub Apps can use this endpoint
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-tokens
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-
-      - name: Review the personal access token request
-        # Only GitHub Apps can use this endpoint
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /orgs/${{ env.ORG_NAME }}/personal-access-token-requests/{pat_request_id}
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-
-          #'{"action":"deny","reason":"This request is denied because the access is too broad."}'
-
-          
-
-      - name: List all personal access tokens for ${{ env.ORG_NAME }}
-        # Only GitHub Apps can use this endpoint
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /orgs/${{github.env.ORG_NAME}}/personal-access-tokens/{pat_id}/repositories
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-
