@@ -13,7 +13,7 @@ jobs:
             app-id: ${{ vars.APP_ID }}
             private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: List all personal access tokens for the Space Telescope Science Institute
+      - name: List all personal access tokens for ${{ env.ORG_NAME }}
         # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
         with:
@@ -42,7 +42,7 @@ jobs:
 
           
 
-      - name: List all personal access tokens for the Space Telescope Science Institute
+      - name: List all personal access tokens for ${{ env.ORG_NAME }}
         # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
         with:
