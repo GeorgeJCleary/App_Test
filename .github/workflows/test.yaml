@@ -11,10 +11,40 @@ jobs:
             app-id: ${{ vars.APP_ID }}
             private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Get installation repositories
+      - name: List all personal access tokens for the Space Telescope Science Institute
+        # Only GitHub Apps can use this endpoint
         uses: octokit/request-action@v2.x
-        id: get-installation-repositories
         with:
-            route: GET /installation/repositories
+          route: GET /orgs/spacetelescope/personal-access-tokens
         env:
-            GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          
+
+      - name: Make a personal access token request
+        # Only GitHub Apps can use this endpoint
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /orgs/spacetelescope/personal-access-tokens
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      - name: Review the personal access token request
+        # Only GitHub Apps can use this endpoint
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /orgs/spacetelescope/personal-access-token-requests/{pat_request_id}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+          #'{"action":"deny","reason":"This request is denied because the access is too broad."}'
+
+          
+
+      - name: List all personal access tokens for the Space Telescope Science Institute
+        # Only GitHub Apps can use this endpoint
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /orgs/spacetelescope/personal-access-tokens/{pat_id}/repositories
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
