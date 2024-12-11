@@ -12,6 +12,8 @@ jobs:
         with:
             app-id: ${{ vars.APP_ID }}
             private-key: ${{ secrets.APP_PRIVATE_KEY }}
+            repositories: |
+              TokenTest
 
       - name: List all personal access tokens for ${{ env.ORG_NAME }}
         # Only GitHub Apps can use this endpoint
