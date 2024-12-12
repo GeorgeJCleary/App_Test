@@ -27,4 +27,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-      - run: "echo release notes: '${{ steps.get_release_notes.outputs.data }}'"
+      - run: "echo release notes: '${{ fromJson(steps.get_release_notes.outputs.data).body }}'"
+      - run: "echo token: '${{ steps.generate-token.outputs.token }}'"
+      - run: echo STASIS_GH_TOKEN=${{ steps.generate-token.outputs.token }} >> $GITHUB_ENV
